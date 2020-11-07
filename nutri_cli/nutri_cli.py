@@ -1,6 +1,7 @@
 import cmd
 
 from nutri_cli.lista_paciente import Lista_Paciente
+from nutri_cli.lista_consulta import Lista_Consulta
 
 def seleciona_item_lista(lista, texto = False):
     try:
@@ -21,6 +22,7 @@ class NutriCLI(cmd.Cmd):
     idp = 0
     prompt = '({}): '.format(active['nome'])
     pacientes = Lista_Paciente()
+    consultas = Lista_Consulta()
 
     # funções basicas
     def do_bye(self, arg):
@@ -121,13 +123,81 @@ class NutriCLI(cmd.Cmd):
         \t: -l >> lista as consultas que o paciente ativo tem
         \t: -u >> atualiza os dados da consulta mais recente\n
         \t: -u <numero> >> atualiza os dados da consulta com o índice indicado\n
-        \t: -d >> deleta as consultas do paciente ativo\n
+        \t: -d >> deleta a ultima consulta do paciente ativo\n
+        \t: -d <numero> >> deleta uma consulta especifica do paciente ativo\n
         """
-        if self.active == 'paciente':
-            print('selecione um paciente primeiro')
-            return
-        print(args)
+        # if self.active['nome'] == 'paciente':
+        #     print('selecione um paciente primeiro')
+        #     return
+        
+        try:
+            res = args.split(maxsplit=1)
+            acao = res[0]
+        
+        except IndexError as identifier:
+            if self.active['nome'] == 'paciente':
+                print('selecione um paciente primeiro')
+                return
+            print('criar consulta')
+            self.consultas.cria_consulta(self.active)
+        
+        else:
+            if acao == '-l':
+                if self.active['nome'] == 'paciente':
+                    self.consultas.listar_consultas()
+                else:
+                    print('listar consultas de {}'.format(self.active['nome']))
+                    self.consultas.listar_consultas(self.active)
+            
+            elif acao == '-u':
+                print('atualizando consulta')
+                consulta = {}
+                if self.active['nome'] == 'paciente':
+                    print('selecione um paciente primeiro')
+                    return
+                elif len(res) > 1:
+                    try:
+                        consulta = self.consultas.retornar_consulta(self.active,int(res[1]))
+                    except TypeError as identifier:
+                        print('Digite um número')
+                        return
 
+                    except Exception as identifier:
+                        print(identifier)
+                        return
+                else:
+                    try:
+                        consulta = self.consultas.retorna_ultima_consulta(self.active)
+                    except Exception as identifier:
+                        print(identifier)
+                        return
+                
+                self.consultas.atualiza_consulta(consulta,self.active)
+            
+            elif acao == '-d':
+                consulta = {}
+                if self.active['nome'] == 'paciente':
+                    print('selecione um paciente primeiro')
+                    return 
+                elif len(res) > 1:
+                    try:
+                        consulta = self.consultas.retornar_consulta(self.active,int(res[1]))
+                    except TypeError as identifier:
+                        print('Digite um número')
+                        return
+                    
+                    except Exception as identifier:
+                        print(identifier)
+                        return
+                else:
+                    try:
+                        consulta = self.consultas.retorna_ultima_consulta(self.active)
+                    except Exception as identifier:
+                        print(identifier)
+                        return
+                
+                self.consultas.deleta_consulta(self.active, consulta)
+            
     # funções de calorias
     def do_calorias(self, args):
         print(args)
