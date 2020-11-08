@@ -26,6 +26,7 @@
 - - Restrições alimentares : string
 
 - Alimentos
+- - Alimento: string
 - - Grupo : int
 - - Calorias : int
 - - Porção(em gramas) : int

@@ -16,7 +16,7 @@ class Lista_Consulta():
 
     def listar_consultas(self, paciente=False):
         """
-        docstring
+        Lista as consultas do paciente ou a quantidade de consultas de todos os pacientes
         """
         # print(paciente)
         # print(self.lista_de_consultas[paciente['nome']])
@@ -35,12 +35,19 @@ class Lista_Consulta():
                 print('Paciente: {}\t-- {} consultas'.format(paciente, len(consultas)))
 
     def retorna_ultima_consulta(self, paciente):
+        """
+        Retorna a última consulta do paciente informado
+        """
         if self.lista_de_consultas[paciente['nome']]:
             return self.lista_de_consultas[paciente['nome']][len(self.lista_de_consultas[paciente['nome']])-1]
         else:
             raise Exception('não existe consulta')
     
     def retornar_consulta(self, paciente, idx=False):
+        """
+        Retornar a consulta informada do paciente informado
+        """
+
         if not self.lista_de_consultas[paciente['nome']]:
             raise Exception('não existe consulta')
         elif idx > len(self.lista_de_consultas[paciente['nome']])-1:
@@ -50,7 +57,7 @@ class Lista_Consulta():
 
     def cria_consulta(self, paciente):
         """
-        docstring
+        Processo de criação de uma consulta nova do paciente dado
         """
         consulta = {}
         # tempo = datetime.now().date()
@@ -65,8 +72,11 @@ class Lista_Consulta():
 
     def atualiza_consulta(self, consulta, paciente):
         """
-        docstring
+        Atualiza a consulta dada do paciente informado
         """
+        if consulta not in self.lista_de_consultas[paciente['nome']]:
+            raise Exception('Consulta não existe para este paciente')
+
         nova_consulta = {}
         nova_consulta['data'] = consulta['data']
         nova_consulta['horario'] = consulta['horario']

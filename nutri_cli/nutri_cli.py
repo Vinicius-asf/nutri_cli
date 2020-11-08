@@ -2,6 +2,8 @@ import cmd
 
 from nutri_cli.lista_paciente import Lista_Paciente
 from nutri_cli.lista_consulta import Lista_Consulta
+from nutri_cli.calorias import combinacoes
+from nutri_cli.calorias import mostrar_combinações
 
 def seleciona_item_lista(lista, texto = False):
     try:
@@ -200,4 +202,12 @@ class NutriCLI(cmd.Cmd):
             
     # funções de calorias
     def do_calorias(self, args):
-        print(args)
+        """
+        Mostra as diferentes combinações de alimentos a partir de dadas calorias
+        """
+        comb = combinacoes(int(args))
+        if comb:
+            mostrar_combinações(comb)
+        else:
+            print('sem combinações')
+            
