@@ -146,7 +146,11 @@ class NutriCLI(cmd.Cmd):
         else:
             if acao == '-l':
                 if self.active['nome'] == 'paciente':
-                    self.consultas.printar_consultas()
+                    try:
+                        self.consultas.printar_consultas()
+                    except IndexError as identifier:
+                        print(identifier)
+                        return
                 else:
                     print('listar consultas de {}'.format(self.active['nome']))
                     self.consultas.printar_consultas(self.active)
