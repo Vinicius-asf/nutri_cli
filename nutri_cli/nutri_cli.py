@@ -207,7 +207,7 @@ class NutriCLI(cmd.Cmd):
     # funções de calorias
     def do_calorias(self, args):
         """
-        Mostra as diferentes combinações de alimentos a partir de dadas calorias
+        mostra as diferentes combinações de alimentos com total de calorias menor do que os dado
         """
         comb = combinacoes(int(args))
         if comb:
