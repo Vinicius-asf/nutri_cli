@@ -1,28 +1,32 @@
 
 def qtd_telefones(text = False):
-    try:
-        if text:
-            qtd = int(input(text))
-        else:
-            qtd = int(input('Quantidade de telefones para registrar: '))
-    except ValueError as identifier:
-        return qtd_telefones('Insira somente numeros inteiros: ')
+    if text:
+        qtd = input(text)
     else:
-        if qtd <= 0:
-            return qtd_telefones('Insira um número maior do que zero: ')
-    return qtd
+        qtd = input('Quantidade de telefones para registrar: ')
+    
+    if qtd.isalnum():
+        return int(qtd)
+    else:
+        raise ValueError('Insira somente numeros inteiros maiores que 0')
+    # except ValueError as identifier:
+    #     return qtd_telefones('Insira somente numeros inteiros: ')
+    # else:
+    #     if qtd <= 0:
+    #         return qtd_telefones('Insira um número maior do que zero: ')
+    # return qtd
 
 class Lista_Paciente():
-    lista_de_pacientes = [
-        {
-            'nome': 'vinicius',
-            'email': 'vini@gmail.com'
-        },
-        {
-            'nome': 'vitor',
-            'email': 'vitor@hotmail.com'
-        },
-    ]
+    lista_de_pacientes = []
+        # {
+        #     'nome': 'vinicius',
+        #     'email': 'vini@gmail.com'
+        # },
+        # {
+        #     'nome': 'vitor',
+        #     'email': 'vitor@hotmail.com'
+        # },
+    # ]
 
     def insere_paciente(self):
         """
@@ -54,16 +58,18 @@ class Lista_Paciente():
         Retorna uma lista de pacientes com o nome dado ou a lista toda caso não houver o que procurar
         """
         if nome:
-            self.print_paciente(nome)
+            # self.print_paciente(nome)
             return [paciente for paciente in self.lista_de_pacientes if paciente['nome'].startswith(nome)]
         else:
-            self.print_paciente('')
+            # self.print_paciente('')
             return self.lista_de_pacientes
     
     def atualiza_paciente(self, paciente):
         """
         Atualiza os dados do paciente e retorna os novos dados
         """
+        if paciente not in self.lista_de_pacientes:
+            raise IndexError('paciente não está na lista')
         novo_paciente = {}
         novo_paciente['nome'] = input('Nome: ')
         novo_paciente['endereco'] = input('Endereço: ')
@@ -79,10 +85,6 @@ class Lista_Paciente():
         """
         Deleta o paciente da lista de pacientes. Remove os dados de consultas também
         """
+        if not self.lista_de_pacientes:
+            raise IndexError ('nao tem pacientes')
         return self.lista_de_pacientes.pop(self.lista_de_pacientes.index(paciente))
-
-    def limpa_lista(self, parameter_list):
-        """
-        docstring
-        """
-        pass

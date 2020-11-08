@@ -59,7 +59,12 @@ class NutriCLI(cmd.Cmd):
         
         else:
             if acao == '-c': # criar paciente
-                self.pacientes.insere_paciente()
+                try:
+                    self.pacientes.insere_paciente()
+                except ValueError as identifier:
+                    print(ValueError)
+                    print('recomece o processo')
+                    return
 
             elif acao == '-s': # selecionar paciente
                 list_nomes = []
@@ -78,16 +83,6 @@ class NutriCLI(cmd.Cmd):
                     self.atualizar_prompt(list_nomes[self.idp])
                 else:
                     print('não foi encontrado pacientes com {}'.format(res[1]))
-                    res = input('deseja iniciar o processo de criação? (s)(n)').lower()
-                    if res == 's' or res == 'sim':
-                        self.atualizar_prompt(self.pacientes.insere_paciente()) #TODO ao inserir, retorna a posição do paciente na lista de nomes
-                    elif res == 'n' or res == 'nao':
-                        return
-                    else:
-                        print('instrução não foi clara - retornando para o inicio')
-
-                # self.active = paciente
-                # self.prompt = '({}): '.format(self.active)
             
             elif acao == '-u': # atualizar paciente
                 print('atualizar paciente')
@@ -97,8 +92,13 @@ class NutriCLI(cmd.Cmd):
                     print('selecione um paciente primeiro')
                     return
                 else:
-                    self.active = self.pacientes.atualiza_paciente(self.active)
-                    self.prompt = self.active['nome']
+                    try:
+                        self.active = self.pacientes.atualiza_paciente(self.active)
+                        self.prompt = self.active['nome']
+                    except ValueError as identifier:
+                        print(identifier)
+                        print('recomesse o processo')
+                        return
 
             elif acao == '-d': # deletar paciente
                 print('deletar paciente')
@@ -122,7 +122,7 @@ class NutriCLI(cmd.Cmd):
         """
         Ações para criar, atualizar, selecionar e remover consultas do sistema\n
         \t: >> cria uma consulta direcionada ao paciente ativo\n
-        \t: -l >> lista as consultas que o paciente ativo tem
+        \t: -l >> lista as consultas que o paciente ativo tem\n
         \t: -u >> atualiza os dados da consulta mais recente\n
         \t: -u <numero> >> atualiza os dados da consulta com o índice indicado\n
         \t: -d >> deleta a ultima consulta do paciente ativo\n
@@ -146,10 +146,10 @@ class NutriCLI(cmd.Cmd):
         else:
             if acao == '-l':
                 if self.active['nome'] == 'paciente':
-                    self.consultas.listar_consultas()
+                    self.consultas.printar_consultas()
                 else:
                     print('listar consultas de {}'.format(self.active['nome']))
-                    self.consultas.listar_consultas(self.active)
+                    self.consultas.printar_consultas(self.active)
             
             elif acao == '-u':
                 print('atualizando consulta')

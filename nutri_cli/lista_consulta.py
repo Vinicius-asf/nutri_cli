@@ -2,10 +2,10 @@ from datetime import datetime, time
 
 
 class Lista_Consulta():
-    lista_de_consultas = {
-        'vinicius':[],
-        'vitor':[],
-    }
+    lista_de_consultas = {}
+    #     'vinicius':[],
+    #     'vitor':[],
+    # }
 
     # lista_de_consultas
     # - {paciente 1: [
@@ -15,45 +15,59 @@ class Lista_Consulta():
     # - - consulta 1 ]}
 
     def listar_consultas(self, paciente=False):
+        if paciente:
+            if paciente['email'] not in self.lista_de_consultas.keys():
+                raise KeyError('paciente não existe')
+
+            elif not self.lista_de_consultas[paciente['email']]:
+                raise IndexError('paciente sem consulta')
+            return self.lista_de_consultas[paciente['email']]
+
+    def printar_consultas(self, paciente=False):
         """
-        Lista as consultas do paciente ou a quantidade de consultas de todos os pacientes
+        Lista no console as consultas do paciente ou a quantidade de consultas de todos os pacientes
         """
         # print(paciente)
-        # print(self.lista_de_consultas[paciente['nome']])
+        # print(self.lista_de_consultas[paciente['email']])
         if paciente:
-            if not self.lista_de_consultas[paciente['nome']]:
+            if not self.lista_de_consultas[paciente['email']]:
                 print('Paciente sem consultas')
                 return
-            for consulta in self.lista_de_consultas[paciente['nome']]:
-                print('Consulta {}'.format(self.lista_de_consultas[paciente['nome']].index(consulta)))
+            for consulta in self.lista_de_consultas[paciente['email']]:
+                print('Consulta {}'.format(self.lista_de_consultas[paciente['email']].index(consulta)))
                 for param, val in consulta.items():
                     print('{}:{}\t'.format(param,val), end=' ')
-                print('\n____________________________________________')
+                print('____________________________________________\n')
         
         elif len(self.lista_de_consultas) > 0:
             for paciente, consultas in self.lista_de_consultas.items():
                 print('Paciente: {}\t-- {} consultas'.format(paciente, len(consultas)))
+        
+        else:
+            raise IndexError('não tem consulta')
 
     def retorna_ultima_consulta(self, paciente):
         """
         Retorna a última consulta do paciente informado
         """
-        if self.lista_de_consultas[paciente['nome']]:
-            return self.lista_de_consultas[paciente['nome']][len(self.lista_de_consultas[paciente['nome']])-1]
+        if self.lista_de_consultas[paciente['email']]:
+            return self.lista_de_consultas[paciente['email']][len(self.lista_de_consultas[paciente['email']])-1]
         else:
-            raise Exception('não existe consulta')
-    
+            raise IndexError('não existe consulta')
+
     def retornar_consulta(self, paciente, idx=False):
         """
         Retornar a consulta informada do paciente informado
         """
+        if paciente['email'] not in self.lista_de_consultas.keys():
+            raise KeyError('paciente não existe')
 
-        if not self.lista_de_consultas[paciente['nome']]:
-            raise Exception('não existe consulta')
-        elif idx > len(self.lista_de_consultas[paciente['nome']])-1:
-            raise Exception('não existe consulta')
+        elif not self.lista_de_consultas[paciente['email']]:
+            raise IndexError('não existe consulta')
+        elif idx > len(self.lista_de_consultas[paciente['email']])-1:
+            raise IndexError('não existe consulta')
         else:
-            return self.lista_de_consultas[paciente['nome']][idx]
+            return self.lista_de_consultas[paciente['email']][idx]
 
     def cria_consulta(self, paciente):
         """
@@ -67,15 +81,15 @@ class Lista_Consulta():
         consulta['gordura'] = int(input('Porcentagem de gordura corporal: '))
         consulta['sensacao'] = input('Sensação física: ')
         consulta['restricao'] = input('Restrições alimentares: ')
-        self.lista_de_consultas.setdefault(paciente['nome'],[])
-        self.lista_de_consultas[paciente['nome']].append(consulta)        
+        self.lista_de_consultas.setdefault(paciente['email'],[])
+        self.lista_de_consultas[paciente['email']].append(consulta)        
 
     def atualiza_consulta(self, consulta, paciente):
         """
         Atualiza a consulta dada do paciente informado
         """
-        if consulta not in self.lista_de_consultas[paciente['nome']]:
-            raise Exception('Consulta não existe para este paciente')
+        if consulta not in self.lista_de_consultas[paciente['email']]:
+            raise IndexError('Consulta não existe para este paciente')
 
         nova_consulta = {}
         nova_consulta['data'] = consulta['data']
@@ -85,8 +99,7 @@ class Lista_Consulta():
         nova_consulta['sensacao'] = input('Sensação física: ')
         nova_consulta['restricao'] = input('Restrições alimentares: ')
 
-        self.lista_de_consultas[paciente['nome']][self.lista_de_consultas[paciente['nome']].index(consulta)] = nova_consulta
-        
+        self.lista_de_consultas[paciente['email']][self.lista_de_consultas[paciente['email']].index(consulta)] = nova_consulta
 
     def deleta_consulta(self, paciente, consulta=False):
         """
@@ -94,9 +107,12 @@ class Lista_Consulta():
         """
         try:
             if consulta:
-                return self.lista_de_consultas[paciente['nome']].pop(self.lista_de_consultas[paciente['nome']].index(consulta))
+                if consulta in self.lista_de_consultas[paciente['email']]:
+                    return self.lista_de_consultas[paciente['email']].pop(self.lista_de_consultas[paciente['email']].index(consulta))
+                else:
+                    raise ValueError('consulta não pertence ao paciente')
             else:
-                return self.lista_de_consultas[paciente['nome']].pop(len(self.lista_de_consultas[paciente['nome']])-1)
+                return self.lista_de_consultas[paciente['email']].pop(len(self.lista_de_consultas[paciente['email']])-1)
         except IndexError as identifier:
             print('não tem consulta')
             return
