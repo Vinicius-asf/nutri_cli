@@ -13,7 +13,7 @@
 
 #### Pacientes
 - para executar ações específicas, um paciente deve estar ativo
-- - modificações e exclusão de dados devem ser feitas somente com pacientes ativos (previamente selecionados)
+  - modificações e exclusão de dados devem ser feitas somente com pacientes ativos (previamente selecionados)
 
 #### Consultas
 - uma consulta só pode ser criada, modificada ou excluída se houver um paciente ativo
@@ -33,25 +33,38 @@
 
 ### Modelagem
 - Pacientes
-- - Nome : string
-- - Endereço : string
-- - Telefones : array(int)
-- - Email : string
-- - Data de nascimento : string
+  - Nome : string
+  - Endereço : string
+  - Telefones : array(string)
+  - Email : string
+  - Data de nascimento : string
 
 - Consultas
-- - Data : string
-- - Horário : string
-- - Peso : int
-- - % de gordura corporal : int
-- - Sensação física : string
-- - Restrições alimentares : string
+  - Data : date
+  - Horário : date
+  - Peso : int
+  - % de gordura corporal : int
+  - Sensação física : string
+  - Restrições alimentares : string
 
 - Alimentos
-- - Alimento: string
-- - Grupo : int
-- - Calorias : int
-- - Porção(em gramas) : int
-- - Proteínas(em gramas) : int
-- - Gorduras(em gramas) : int
-- - Carboidratos(em gramas) : int
+  - Alimento: string
+  - Grupo : int
+  - Calorias : int
+  - Porção(em gramas) : int
+  - Proteínas(em gramas) : int
+  - Gorduras(em gramas) : int
+  - Carboidratos(em gramas) : int
+
+### Execução
+
+#### Requisitos
+- Python 3.1 ou mais recente
+
+#### Aplicativo
+- No prompt de commando de sua escolha, execute:
+> root\python app.py
+
+#### Testes
+- No prompt de commando de sua escolha, execute:
+> root\python run_tests.py
