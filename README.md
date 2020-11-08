@@ -75,15 +75,15 @@
 > help
 - lista os comandos do sistema
   
-> help <comando>
+> help {comando}
 - acessa a descrição do comando especificado
 
-> calorias <numero>
+> calorias {numero}
 - mostra as diferentes combinações de alimentos com total de calorias menor do que os dado
 
 ##### Pacientes
 Comando principal : **paciente**
-  > paciente -s <nome do paciente>
+  > paciente -s {nome do paciente}
   - seleciona paciente a partir de uma lista de nomes parecidos nome dado
     - se houver apenas um nome na lista, este será selecionado
   > paciente -u
@@ -104,9 +104,9 @@ Comando principal : **consulta**
  - lista as consultas que o paciente ativo tem
  > consulta -u 
  - atualiza os dados da consulta mais recente
- > consulta -u <numero>
+ > consulta -u {numero}
  - atualiza os dados da consulta com o índice indicado
  > consulta -d 
  - deleta a ultima consulta do paciente ativo
- > -d <numero>
+ > -d {numero}
  - deleta uma consulta especifica do paciente ativo
