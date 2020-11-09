@@ -81,6 +81,9 @@
 > calorias {numero}
 - mostra as diferentes combinações de alimentos com total de calorias menor do que os dado
 
+> bye
+- fecha o programa
+
 ##### Pacientes
 Comando principal : **paciente**
   > paciente -s {nome do paciente}
